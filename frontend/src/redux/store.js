@@ -5,7 +5,7 @@ import { userAuthApiSlice } from "./feature/userAuthApiSlice";
 const apiSlices = [userAuthApiSlice];
 
 const reducers = {
-  user: userReducer,
+  auth: userReducer,
 };
 
 apiSlices.forEach((apiSlice) => {
