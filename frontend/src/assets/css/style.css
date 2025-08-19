@@ -1,0 +1,465 @@
+.text-10-400 {
+    font-family: Poppins;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-10-600 {
+    font-family: Poppins;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-11-400 {
+    font-family: Poppins;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-11-600 {
+    font-family: Poppins;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-12-400 {
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-12-600 {
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-13-400 {
+    font-family: Poppins;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-13-600 {
+    font-family: Poppins;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-14-400 {
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-14-500 {
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    color: var(--Black-400, #646464);
+}
+
+.text-14-600 {
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-15-400 {
+    font-family: Poppins;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-15-600 {
+    font-family: Poppins;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-16-400 {
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-16-600 {
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-17-400 {
+    font-family: Poppins;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-17-600 {
+    font-family: Poppins;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-18-400 {
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-18-600 {
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-19-400 {
+    font-family: Poppins;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-19-600 {
+    font-family: Poppins;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-20-400 {
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-20-600 {
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-21-400 {
+    font-family: Poppins;
+    font-size: 21px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-21-600 {
+    font-family: Poppins;
+    font-size: 21px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-22-400 {
+    font-family: Poppins;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-22-600 {
+    font-family: Poppins;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-23-400 {
+    font-family: Poppins;
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-23-600 {
+    font-family: Poppins;
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-24-400 {
+    font-family: Poppins;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-24-600 {
+    font-family: Poppins;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-25-400 {
+    font-family: Poppins;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-25-600 {
+    font-family: Poppins;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-26-400 {
+    font-family: Poppins;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-26-600 {
+    font-family: Poppins;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-27-400 {
+    font-family: Poppins;
+    font-size: 27px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-27-600 {
+    font-family: Poppins;
+    font-size: 27px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-28-400 {
+    font-family: Poppins;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-28-600 {
+    font-family: Poppins;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-29-400 {
+    font-family: Poppins;
+    font-size: 29px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-29-600 {
+    font-family: Poppins;
+    font-size: 29px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-30-400 {
+    font-family: Poppins;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-30-600 {
+    font-family: Poppins;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-31-400 {
+    font-family: Poppins;
+    font-size: 31px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-31-600 {
+    font-family: Poppins;
+    font-size: 31px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-32-400 {
+    font-family: Poppins;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-32-600 {
+    font-family: Poppins;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-33-400 {
+    font-family: Poppins;
+    font-size: 33px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-33-600 {
+    font-family: Poppins;
+    font-size: 33px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-34-400 {
+    font-family: Poppins;
+    font-size: 34px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.text-34-600 {
+    font-family: Poppins;
+    font-size: 34px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text-64-600 {
+    color: var(--Background, #f7f7f7);
+    text-align: center;
+    font-family: Volkhov;
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 72px;
+    /* 112.5% */
+    letter-spacing: -2.56px;
+}
+
+.text-50-600 {
+    color: var(--3rd, #14183e);
+    text-align: center;
+    font-family: Volkhov;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: capitalize;
+}
+
+.white-home-container {
+    border-radius: 20px;
+    background: #fff;
+    padding: 30px !important;
+    cursor: pointer;
+}
+
+.white-home-container:hover {
+    border-radius: 20px;
+    border: 1px solid var(--junk-primary-100, #1f4097);
+    background: var(--junk-primary-5, rgba(21, 187, 193, 0.05));
+}
+
+.active {
+    border-radius: 8px;
+    background: #1f4097;
+    color: #fff;
+    padding: 10px !important;
+    cursor: pointer;
+}
+
+.active .sidebar-icon {
+    color: white !important;
+}
+
+.form-label {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-parent-container {
+    background: #fff;
+}
