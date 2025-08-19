@@ -6,7 +6,6 @@ module.exports = async (req, res, next) => {
   try {
     // Extract Authorization Header
     const authHeader = req.get("Authorization");
-    console.log("Authorization Header:", authHeader);
 
     if (!authHeader) {
       return next(new AppError("Not authenticated.", 401));

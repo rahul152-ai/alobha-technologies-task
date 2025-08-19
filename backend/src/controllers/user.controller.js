@@ -1,4 +1,6 @@
 const User = require("../models/user.model");
+const AppError = require("../utils/appError");
+const bcrypt = require("bcryptjs");
 
 exports.getAllUsers = async (req, res, next) => {
   try {
@@ -56,3 +58,30 @@ exports.getAllUserTeams = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.createUser = async (req,res,next)=>{
+  try {
+    const { name, email, password , role} = req.body;
+
+    if (!name || !email || !password) {
+     return  next(new AppError("name email and password is required", 400));
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+     return  next(new AppError("User already exists", 400));
+    }
+
+    const hashed = await bcrypt.hash(password, 10);
+
+    const newUser = new User({ name, email, hashed , role: role || "user" });
+    await newUser.save();
+
+    res.status(201).json({
+      message: "User created successfully",
+      user: { _id: newUser._id, name: newUser.name, email: newUser.email },
+    });
+  } catch (error) {
+    next(error);
+  }
+}
