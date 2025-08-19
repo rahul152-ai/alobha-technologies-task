@@ -12,8 +12,8 @@ const {
 
 route.post("/", authMiddleware, isUser, createTodo);
 route.get("/", authMiddleware, isUser, getAllTodos);
-// route.get("/:id", authMiddleware, isUser, getTodoById);
-// route.put("/:id", authMiddleware, isUser, updateTodo);
+route.get("/:id", authMiddleware, isUser, getTodoById);
+route.patch("/:id", authMiddleware, isUser, updateTodo);
 // route.delete("/:id", authMiddleware, isUser, deleteTodo);
 
 module.exports = route;
