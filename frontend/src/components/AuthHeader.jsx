@@ -1,6 +1,5 @@
-import React from "react";
-import noNotification from "../assets/svg/noNotification.svg";
 import noProfileImage from "../assets/svg/noProfileImage.svg";
+import dclutterlogo from "../assets/images/alohaFavIcon.webp";
 
 export const AuthHeader = () => {
   return (
@@ -11,9 +10,9 @@ export const AuthHeader = () => {
         background: " #FFF",
       }}
     >
-      <div className="w-100 d-flex align-items-center justify-content-end gap-4">
-        <div>
-          <img src={noNotification} alt="notification" />
+      <div className="w-100 d-flex align-items-center justify-content-between gap-4">
+        <div className="d-flex justify-content-center align-items-center ms-5">
+          <img src={dclutterlogo} height={52} width={52} alt="D Clutter Logo" />
         </div>
         <div className="d-flex align-items-center gap-2 col-2">
           <img src={noProfileImage} alt="noProfileImage" />

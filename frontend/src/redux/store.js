@@ -1,26 +1,53 @@
-import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "./slice/userSlice";
-import { userAuthApiSlice } from "./feature/userAuthApiSlice";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import storage from "redux-persist/lib/storage";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
 
-const apiSlices = [userAuthApiSlice];
+import authSlice from "../redux/features/authSlice";
 
-const reducers = {
-  auth: userReducer,
+// Persist configuration
+const persistConfig = {
+  key: "autozone",
+  storage,
 };
 
-apiSlices.forEach((apiSlice) => {
-  reducers[apiSlice.reducerPath] = apiSlice.reducer;
+// Combine all reducers
+const appReducer = combineReducers({
+  auth: authSlice,
 });
 
-export const store = configureStore({
-  reducer: reducers,
-  middleware: (getDefaultMiddleware) => {
-    const middleware = getDefaultMiddleware();
+// Root reducer to handle clearing state on logout
+const rootReducer = (state, action) => {
+  if (action.type === "auth/logout") {
+    // Clear all persisted state
+    storage.removeItem("persist:task");
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
 
-    apiSlices.forEach((apiSlice) => {
-      middleware.push(apiSlice.middleware);
-    });
+// Create persisted reducer
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-    return middleware;
-  },
+// Configure store
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
+
+const persistor = persistStore(store);
+
+export { store, persistor };
