@@ -15,7 +15,7 @@ exports.createTeam = async (req, res, next) => {
     await newTeam.save();
     await createLog(
       req.user._id,
-      "create",
+      "add team",
       "team",
       newTeam._id,
       `Team created: ${name}`
@@ -55,7 +55,7 @@ exports.addUserToTeam = async (req, res, next) => {
 
     await createLog(
       req.user._id,
-      "add",
+      "add user to team",
       "team",
       teamId,
       `User ${user.name} added to team ${team.name}`

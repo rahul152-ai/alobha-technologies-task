@@ -20,7 +20,7 @@ exports.createTodo = async (req, res, next) => {
 
     await createLog(
       userId,
-      "create",
+      "create todo",
       "todo",
       newTodo._id,
       `Todo "${title}" created successfully`
@@ -38,41 +38,108 @@ exports.createTodo = async (req, res, next) => {
 exports.getAllTodos = async (req, res, next) => {
   try {
     const userId = req.user._id;
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10, title, creator, team, fromDate, toDate } = req.query;
 
     const userTeams = await User.findById(userId).select("teams");
 
-    const todos = await Todo.find({ team: { $in: userTeams.teams } })
-      .select("-__v")
-      .sort({ createdAt: -1 })
-      .skip((page - 1) * limit)
-      .limit(Number(limit))
-      .populate("team", "name")
-      .populate("creator", "name email");
+    let match = {
+      team: { $in: userTeams.teams },
+    };
 
-    if (!todos.length) {
-      return res.status(200).json({ message: "No todos found" });
+    // Date filter
+    if (fromDate || toDate) {
+      match.createdAt = {};
+      if (fromDate) match.createdAt.$gte = new Date(fromDate);
+      if (toDate) match.createdAt.$lte = new Date(toDate);
     }
 
-    // if allowedEditors array contain the userId then add isEditable field true;
-    const formattedTodos = todos.map((todo) => {
-      const isEditable = todo.allowedEditors.includes(userId);
-      return { ...todo.toObject(), isEditable };
+    //Aggregation pipeline
+    const pipeline = [
+      { $match: match },
+      {
+        $lookup: {
+          from: "users",
+          localField: "creator",
+          foreignField: "_id",
+          as: "creator",
+        },
+      },
+      { $unwind: "$creator" },
+      {
+        $lookup: {
+          from: "teams",
+          localField: "team",
+          foreignField: "_id",
+          as: "team"
+        },
+      },
+      { $unwind: "$team" },
+    ];
+
+    // Text filters
+    if (title) {
+      pipeline.push({
+        $match: { title: { $regex: title, $options: "i" } },
+      });
+    }
+
+    if (creator) {
+      pipeline.push({
+        $match: { "creator.name": { $regex: creator, $options: "i" } },
+      });
+    }
+
+    if (team) {
+      pipeline.push({
+        $match: { "team.name": { $regex: team, $options: "i" } },
+      });
+    }
+
+    const totalTodos = (await Todo.aggregate([...pipeline])).length;
+
+    pipeline.push({ $sort: { createdAt: -1 } });
+    pipeline.push({ $skip: (page - 1) * limit });
+    pipeline.push({ $limit: Number(limit) });
+
+    pipeline.push({
+      $project: {
+        __v: 0,
+        "creator.password": 0, 
+        "creator.teams": 0,
+        "creator.email": 0,
+        "creator.role": 0,
+        "creator.__v": 0,
+        "team.__v": 0,
+        "team.users": 0,
+        "team.createdAt": 0,
+        "team.updatedAt": 0,
+      },
+    });
+
+    let todos = await Todo.aggregate(pipeline);
+
+    // Add isEditable flag
+    todos = todos.map((todo) => {
+      const isEditable = todo.allowedEditors.some(
+        (editorId) => editorId.toString() === userId.toString()
+      );
+      return { ...todo, isEditable };
     });
 
     res.status(200).json({
-      message: "Todos retrieved successfully",
-      todos: formattedTodos,
+      message: todos.length ? "Todos retrieved successfully" : "No todos found",
+      todos,
       pagination: {
-        currentPage: Number(page),
-        totalPages: Math.ceil(todos.length / limit),
-        totalTodos: todos.length,
+        total: totalTodos,
+        page: Number(page),
+        totalPages: Math.ceil(totalTodos / limit),
       },
     });
   } catch (error) {
     next(error);
   }
 };
+
 
 exports.getTodoById = async (req, res, next) => {
   try {
@@ -121,13 +188,20 @@ exports.updateTodo = async (req, res, next) => {
           new AppError("You are not allowed to update the status", 403)
         );
       }
+
+       await createLog(
+          userId,
+          "edit todo status",
+          "todo",
+          todo._id,
+          `Todo status updated successfully`
+        );
       todo.status = status;
     }
 
     // Add newUserId to allowedEditors if user is creator and newUserId have member in the team
     if (newUserId) {
       const newUser = await User.findById(newUserId).select("teams");
-      console.log("new userrs", newUser);
       if (todo.creator.toString() !== userId.toString()) {
         return next(new AppError("Only the creator can add editors", 403));
       }
@@ -137,18 +211,17 @@ exports.updateTodo = async (req, res, next) => {
       }
       if (!todo.allowedEditors.includes(newUserId)) {
         todo.allowedEditors.push(newUserId);
+        await createLog(
+          userId,
+          "share access",
+          "todo",
+          todo._id,
+          `new user is added to allowed editors for todo "${todo.title}"`
+        );
       }
     }
 
     await todo.save();
-
-    await createLog(
-      userId,
-      "update",
-      "todo",
-      todo._id,
-      `Todo "${todo.title}" updated successfully`
-    );
 
     res.status(200).json({
       message: "Todo updated successfully",
