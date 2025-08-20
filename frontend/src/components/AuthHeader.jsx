@@ -1,7 +1,9 @@
 import noProfileImage from "../assets/svg/noProfileImage.svg";
 import dclutterlogo from "../assets/images/alohaFavIcon.webp";
+import { useSelector } from "react-redux";
 
 export const AuthHeader = () => {
+  const { role, user } = useSelector((state) => state.auth);
   return (
     <nav
       className="d-flex align-items-center col-12"
@@ -17,8 +19,8 @@ export const AuthHeader = () => {
         <div className="d-flex align-items-center gap-2 col-2">
           <img src={noProfileImage} alt="noProfileImage" />
           <div>
-            <div className="text-14-600">John Doe</div>
-            <div className="text-12-600">Admin</div>
+            <div className="text-14-600">{user?.name}</div>
+            <div className="text-12-600">{role}</div>
           </div>
         </div>
       </div>
