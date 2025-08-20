@@ -47,7 +47,7 @@ exports.getAllUserTeams = async (req, res, next) => {
 
     const user = await User.findById(userId)
       .select("teams")
-      .populate("teams", "name")
+      .populate("teams", "name createdAt")
       .skip((page - 1) * limit)
       .limit(Number(limit));
 
@@ -101,8 +101,6 @@ exports.createUser = async (req, res, next) => {
 exports.searchUsers = async (req, res, next) => {
   try {
     const { query } = req.query;
-
-    console.log("Search query:", query);
 
     // If no query provided, return empty array
     if (!query || query.trim() === "") {

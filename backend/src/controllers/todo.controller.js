@@ -38,7 +38,15 @@ exports.createTodo = async (req, res, next) => {
 exports.getAllTodos = async (req, res, next) => {
   try {
     const userId = req.user._id;
-    const { page = 1, limit = 10, title, creator, team, fromDate, toDate } = req.query;
+    const {
+      page = 1,
+      limit = 10,
+      title,
+      creator,
+      team,
+      fromDate,
+      toDate,
+    } = req.query;
 
     const userTeams = await User.findById(userId).select("teams");
 
@@ -70,7 +78,7 @@ exports.getAllTodos = async (req, res, next) => {
           from: "teams",
           localField: "team",
           foreignField: "_id",
-          as: "team"
+          as: "team",
         },
       },
       { $unwind: "$team" },
@@ -104,7 +112,7 @@ exports.getAllTodos = async (req, res, next) => {
     pipeline.push({
       $project: {
         __v: 0,
-        "creator.password": 0, 
+        "creator.password": 0,
         "creator.teams": 0,
         "creator.email": 0,
         "creator.role": 0,
@@ -130,8 +138,8 @@ exports.getAllTodos = async (req, res, next) => {
       message: todos.length ? "Todos retrieved successfully" : "No todos found",
       todos,
       pagination: {
-        total: totalTodos,
-        page: Number(page),
+        totalTodos: totalTodos,
+        createLog: Number(page),
         totalPages: Math.ceil(totalTodos / limit),
       },
     });
@@ -139,7 +147,6 @@ exports.getAllTodos = async (req, res, next) => {
     next(error);
   }
 };
-
 
 exports.getTodoById = async (req, res, next) => {
   try {
@@ -189,13 +196,13 @@ exports.updateTodo = async (req, res, next) => {
         );
       }
 
-       await createLog(
-          userId,
-          "edit todo status",
-          "todo",
-          todo._id,
-          `Todo status updated successfully`
-        );
+      await createLog(
+        userId,
+        "edit todo status",
+        "todo",
+        todo._id,
+        `Todo status updated successfully`
+      );
       todo.status = status;
     }
 

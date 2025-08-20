@@ -1,59 +1,64 @@
 import { DateTime } from "luxon";
 
-const columns = [
-  {
-    headerName: "SN",
-    cellRenderer: (params) => params.node.rowIndex + 1,
-    sortable: false,
-    resizable: false,
-    width: 90,
-    editable: false,
-    suppressMovable: true,
-  },
-  {
-    headerName: "Total Members",
-    cellRenderer: (params) => params.data.totalUsers,
-    sortable: false,
-    resizable: false,
-    width: 90,
-    editable: false,
-    suppressMovable: true,
-  },
-  {
-    headerName: "Name",
-    field: "name",
-    sortable: false,
-    filter: false,
-    editable: false,
-    suppressMovable: true,
-    resizable: false,
-  },
-  {
-    headerName: "Created At",
-    field: "createdAt",
-    sortable: false,
-    filter: false,
-    editable: false,
-    valueFormatter: (params) =>
-      DateTime.fromISO(params.value).toLocaleString(DateTime.DATETIME_MED),
-    suppressMovable: true,
-    resizable: false,
-  },
+const getTeamColumns = (role) => {
+  const baseColumns = [
+    {
+      headerName: "SN",
+      cellRenderer: (params) => params.node.rowIndex + 1,
+      sortable: false,
+      resizable: false,
+      width: 90,
+      editable: false,
+      suppressMovable: true,
+    },
+    {
+      headerName: "Name",
+      field: "name",
+      sortable: false,
+      filter: false,
+      editable: false,
+      suppressMovable: true,
+      resizable: false,
+    },
+    {
+      headerName: "Created At",
+      field: "createdAt",
+      sortable: false,
+      filter: false,
+      editable: false,
+      valueFormatter: (params) =>
+        DateTime.fromISO(params.value).toLocaleString(DateTime.DATETIME_MED),
+      suppressMovable: true,
+      resizable: false,
+    },
+  ];
 
-  {
-    headerName: "Add User",
-    cellRenderer: (params) => {
-      return (
+  // Only add these columns if role is not "user"
+  if (role !== "user") {
+    baseColumns.splice(1, 0, {
+      headerName: "Total Members",
+      cellRenderer: (params) => params.data.totalUsers,
+      sortable: false,
+      resizable: false,
+      width: 90,
+      editable: false,
+      suppressMovable: true,
+    });
+
+    baseColumns.push({
+      headerName: "Add User",
+      cellRenderer: (params) => (
         <button
           className="btn btn-primary btn-sm"
-          onClick={() => params.context.openAddUserModal(params.data._id)}
+          onClick={() => context.openAddUserModal(params.data._id)}
         >
           Add
         </button>
-      );
-    },
-    // width: 200,
-  },
-];
+      ),
+    });
+  }
 
-export { columns };
+  return baseColumns;
+};
+
+export { getTeamColumns };

@@ -4,33 +4,43 @@ import { AgGridReact } from "ag-grid-react";
 import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
 import NoDataImg from "../components/NoDataImg";
 
-import { columns } from "../columns/systemLogColumn";
+import { getColumns } from "../columns/todoColumn";
 import CustomPagination from "../components/CustomPagination";
 import { ProtectedApi } from "../api/axiosApis";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-const SystemLogs = () => {
+const AllTodos = () => {
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
   const gridApi = useRef(null);
+
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
-  const [query, setQuery] = useState({
-    page: 1,
-    limit: 10,
-    actorName: "",
-    fromDate: "",
-    toDate: "",
-  });
   const [loading, setLoading] = useState(false);
   const [totalData, setTotalData] = useState(0);
 
-  // Function to fetch data
+  // Filters & Query
+  const [query, setQuery] = useState({
+    page: 1,
+    limit: 10,
+    creator: "",
+    title: "",
+    team: "",
+    fromDate: "",
+    toDate: "",
+  });
+
+  // Fetch Data
   const fetchData = async () => {
     try {
       setLoading(true);
       const encodedQuery = new URLSearchParams(query).toString();
-      const response = await ProtectedApi.systemLogs(encodedQuery);
-      setData(response.logs);
-      setTotalData(response.pagination.totalLogs);
+      const response = await ProtectedApi.getAllTodos(encodedQuery);
+      setData(response.todos);
+      setTotalData(response.pagination.totalTodos);
     } catch (error) {
       console.error("Error fetching data:", error);
       setError(error.message);
@@ -50,18 +60,21 @@ const SystemLogs = () => {
   }, []);
 
   const pageChange = (page) => {
-    setQuery({ ...query, page: page });
+    setQuery({ ...query, page });
   };
 
   const handleRowPerPage = (newPerPage, page) => {
-    setQuery({ ...query, limit: newPerPage, page: page });
+    setQuery({ ...query, limit: newPerPage, page });
   };
 
+  // Clear Filters
   const clearFilters = () => {
     setQuery({
       page: 1,
       limit: 10,
-      actorName: "",
+      creator: "",
+      title: "",
+      team: "",
       fromDate: "",
       toDate: "",
     });
@@ -73,24 +86,57 @@ const SystemLogs = () => {
         <div className="text-center">{error}</div>
       ) : (
         <div className="m-4">
-          <div className="d-flex gap-4 mb-4 justify-content-end">
-            <div className="d-flex flex-col gap-1 justify-content-between align-items-center">
-              <label htmlFor="actorName" className="text-sm font-medium mb-1">
+          {/* Filter Section */}
+          <div className="d-flex flex-wrap gap-4 mb-4 justify-content-end">
+            <div className="d-flex flex-column gap-1">
+              <label htmlFor="creator" className="text-sm font-medium mb-1">
                 Actor Name
               </label>
               <input
-                id="actorName"
+                id="creator"
                 type="text"
                 placeholder="Search by actor"
-                value={query.actorName}
+                value={query.creator}
                 onChange={(e) =>
-                  setQuery({ ...query, actorName: e.target.value, page: 1 })
+                  setQuery({ ...query, creator: e.target.value, page: 1 })
                 }
                 className="border rounded px-3 py-2"
               />
             </div>
 
-            <div className="d-flex flex-col gap-1 justify-content-between align-items-center">
+            <div className="d-flex flex-column gap-1">
+              <label htmlFor="title" className="text-sm font-medium mb-1">
+                Title
+              </label>
+              <input
+                id="title"
+                type="text"
+                placeholder="Search by title"
+                value={query.title}
+                onChange={(e) =>
+                  setQuery({ ...query, title: e.target.value, page: 1 })
+                }
+                className="border rounded px-3 py-2"
+              />
+            </div>
+
+            <div className="d-flex flex-column gap-1">
+              <label htmlFor="team" className="text-sm font-medium mb-1">
+                Team
+              </label>
+              <input
+                id="team"
+                type="text"
+                placeholder="Search by team"
+                value={query.team}
+                onChange={(e) =>
+                  setQuery({ ...query, team: e.target.value, page: 1 })
+                }
+                className="border rounded px-3 py-2"
+              />
+            </div>
+
+            <div className="d-flex flex-column gap-1">
               <label htmlFor="fromDate" className="text-sm font-medium mb-1">
                 From Date
               </label>
@@ -105,7 +151,7 @@ const SystemLogs = () => {
               />
             </div>
 
-            <div className="d-flex flex-col gap-1 justify-content-between align-items-center">
+            <div className="d-flex flex-column gap-1">
               <label htmlFor="toDate" className="text-sm font-medium mb-1">
                 To Date
               </label>
@@ -120,6 +166,7 @@ const SystemLogs = () => {
               />
             </div>
 
+            {/* Clear Filters Button */}
             <div className="d-flex align-items-end">
               <button
                 onClick={clearFilters}
@@ -130,13 +177,14 @@ const SystemLogs = () => {
             </div>
           </div>
 
+          {/* Table Section */}
           <div
             className="ag-theme-alpine"
             style={{ height: "500px", width: "100%" }}
           >
             <AgGridReact
               ref={gridApi}
-              columnDefs={columns}
+              columnDefs={getColumns(user._id, navigate)}
               rowData={data}
               getRowStyle={getRowStyle}
               onGridReady={(params) => params.api.sizeColumnsToFit()}
@@ -147,6 +195,8 @@ const SystemLogs = () => {
               noRowsOverlayComponent={NoDataImg}
             />
           </div>
+
+          {/* Pagination */}
           <CustomPagination
             currentPage={query.page}
             totalData={totalData}
@@ -160,4 +210,4 @@ const SystemLogs = () => {
   );
 };
 
-export default SystemLogs;
+export default AllTodos;

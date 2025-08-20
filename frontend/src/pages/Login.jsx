@@ -7,6 +7,7 @@ import { AuthApi } from "../api/axiosApis";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { login } from "../redux/features/authSlice";
+import logo from "../assets/images/alohaFavIcon.webp";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -67,6 +68,9 @@ export const Login = () => {
       </div>
 
       <div className="col-4 d-flex flex-column align-items-center">
+        <div className="d-flex justify-content-center align-items-center mt-5">
+          <img src={logo} height={52} width={52} alt="logo" />
+        </div>
         {/* Toggle Login / Signup */}
         <div
           className="d-flex align-items-center justify-content-around p-2 col-9 mt-5"

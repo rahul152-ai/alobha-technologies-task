@@ -1,4 +1,4 @@
-// roleMiddleware.js
+const AppError = require("../utils/appError");
 
 exports.isAdmin = (req, res, next) => {
   if (req.user.role !== "admin") {

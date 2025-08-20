@@ -6,13 +6,15 @@ import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
 import { useNavigate } from "react-router-dom";
 import NoDataImg from "../components/NoDataImg";
 
-import { columns } from "../columns/teamColumns";
+import { getTeamColumns } from "../columns/teamColumns";
 import CustomPagination from "../components/CustomPagination";
 import { ProtectedApi } from "../api/axiosApis";
 import AddUserModal from "../components/AddUserModel";
+import { useSelector } from "react-redux";
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 const Team = () => {
+  const { role } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const gridApi = useRef(null);
   const [data, setData] = useState([]);
@@ -46,7 +48,13 @@ const Team = () => {
     try {
       setLoading(true);
       const encodedQuery = new URLSearchParams(query).toString();
-      const response = await ProtectedApi.getTeams(encodedQuery);
+      let response;
+      if (role === "admin") {
+        response = await ProtectedApi.getTeams(encodedQuery);
+      } else {
+        response = await ProtectedApi.getUserTeams(encodedQuery);
+      }
+
       setData(response.teams);
       setTotalData(response.pagination.totalTeams);
     } catch (error) {
@@ -82,21 +90,24 @@ const Team = () => {
           <div className="text-center">{error}</div>
         ) : (
           <div className="m-4">
-            <div className="text-end mb-2">
-              <Button
-                onClick={() => navigate("/add-team")}
-                className="btn-primary"
-              >
-                Add
-              </Button>
-            </div>
+            {/* Add Team Button for Admin */}
+            {role === "admin" && (
+              <div className="text-end mb-2">
+                <Button
+                  onClick={() => navigate("/add-team")}
+                  className="btn-primary"
+                >
+                  Add
+                </Button>
+              </div>
+            )}
             <div
               className="ag-theme-alpine"
               style={{ height: "500px", width: "100%" }}
             >
               <AgGridReact
                 ref={gridApi}
-                columnDefs={columns}
+                columnDefs={getTeamColumns(role)}
                 rowData={data}
                 getRowStyle={getRowStyle}
                 onGridReady={(params) => params.api.sizeColumnsToFit()}

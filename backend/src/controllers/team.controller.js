@@ -108,3 +108,31 @@ exports.getAllTeams = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.searchTeams = async (req, res, next) => {
+  try {
+    const { query } = req.query;
+
+    // If no query provided, return empty array
+    if (!query || query.trim() === "") {
+      return res.status(200).json({
+        message: "No search term provided",
+        users: [],
+      });
+    }
+
+    // Case-insensitive search by name
+    const teams = await Team.find({
+      $or: [{ name: { $regex: query, $options: "i" } }],
+      $and: [{ users: { $in: [req.user._id] } }],
+    })
+      .select("_id name")
+      .limit(10); // limit results for efficiency
+    res.status(200).json({
+      message: teams.length ? "Teams found" : "No teams matched your search",
+      teams,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
