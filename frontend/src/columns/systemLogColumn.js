@@ -1,0 +1,71 @@
+import { DateTime } from "luxon";
+const columns = [
+  {
+    headerName: "SN",
+    cellRenderer: (params) => params.node.rowIndex + 1,
+    sortable: false,
+    resizable: false,
+    width: 90,
+    editable: false,
+    suppressMovable: true,
+  },
+  {
+    headerName: "Actor Name",
+    field: "actor.name",
+    valueGetter: (params) => params.data?.actor?.name || "",
+    sortable: false,
+    filter: false,
+    editable: false,
+    suppressMovable: true,
+    resizable: false,
+  },
+  {
+    headerName: "Action Type",
+    field: "actionType",
+    sortable: false,
+    filter: false,
+    editable: false,
+    suppressMovable: true,
+    resizable: false,
+  },
+  {
+    headerName: "Entity Type",
+    field: "entityType",
+    sortable: false,
+    filter: false,
+    editable: false,
+    suppressMovable: true,
+    resizable: false,
+  },
+  {
+    headerName: "Entity ID",
+    field: "entityId",
+    sortable: false,
+    filter: false,
+    editable: false,
+    suppressMovable: true,
+    resizable: true,
+  },
+  {
+    headerName: "Description",
+    field: "description",
+    sortable: false,
+    filter: false,
+    editable: false,
+    suppressMovable: true,
+    resizable: true,
+  },
+  {
+    headerName: "Created At",
+    field: "createdAt",
+    valueFormatter: (params) =>
+      DateTime.fromISO(params.value).toLocaleString(DateTime.DATETIME_MED),
+    sortable: false,
+    filter: false,
+    editable: false,
+    suppressMovable: true,
+    resizable: true,
+  },
+];
+
+export { columns };

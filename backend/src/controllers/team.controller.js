@@ -75,10 +75,16 @@ exports.getAllTeams = async (req, res, next) => {
 
     // Fetch teams with pagination
     const teams = await Team.find()
-      .select("-__v -users")
+      .select("-__v")
       .skip((page - 1) * limit)
       .limit(Number(limit))
       .sort({ name: 1 });
+
+    const teamWithUserCounts = teams.map((team) => {
+      const t = team.toObject();
+      t.totalUsers = team.users?.length || 0;
+      return t;
+    });
 
     // Check if any teams are found
     if (!teams || teams.length === 0) {
@@ -90,7 +96,7 @@ exports.getAllTeams = async (req, res, next) => {
 
     // Send the response with pagination info
     res.status(200).json({
-      teams,
+      teams: teamWithUserCounts,
       message: "Teams retrieved successfully!",
       pagination: {
         currentPage: Number(page),

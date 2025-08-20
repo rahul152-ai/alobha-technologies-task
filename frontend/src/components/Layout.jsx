@@ -1,11 +1,11 @@
 // src/components/Layout.jsx
-import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { AuthHeader } from "./AuthHeader";
 import { NonAuthHeader } from "./NonAuthHeader";
 import Sidebar from "./Sidebar"; // Assuming you have a Sidebar component
+import { Children } from "react";
 
-const Layout = ({ isAuthenticated }) => {
+const Layout = ({ children, isAuthenticated }) => {
   const location = useLocation();
   return (
     <div
@@ -47,7 +47,7 @@ const Layout = ({ isAuthenticated }) => {
 
         {/* Main Content */}
         <main className={isAuthenticated ? "main-content container" : ""}>
-          <Outlet />
+          {children}
         </main>
       </div>
     </div>

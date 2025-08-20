@@ -5,6 +5,8 @@ import { store } from "./redux/store";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -15,5 +17,12 @@ createRoot(document.getElementById("root")).render(
         <App />
       </Provider>
     </BrowserRouter>
+    // Toast Container
+    <ToastContainer
+      position="top-right"
+      newestOnTop={true}
+      theme="colored"
+      autoClose={2000}
+    />
   </StrictMode>
 );

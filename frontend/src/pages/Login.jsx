@@ -2,14 +2,16 @@ import { useState } from "react";
 import todoLogin from "../assets/images/todoLogin.jpg";
 import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { set, useForm } from "react-hook-form";
-import { AuthApi } from "../api/axios";
+import { useForm } from "react-hook-form";
+import { AuthApi } from "../api/axiosApis";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { login } from "../redux/features/authSlice";
 
 export const Login = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   // react-hook-form instance
@@ -22,35 +24,34 @@ export const Login = () => {
   } = useForm();
 
   // Handle form submission
-  const onSubmit = (data) => {
-    console.log("Form data submitted:", data);
-    if (isLogin) {
-      AuthApi.signIn(data)
-        .then((response) => {
-          dispatch(login({ user: response.user, role: response.user.role }));
-          // navigate("/");
-        })
-        .catch((error) => {
-          console.error("Login error:", error);
-          alert(
-            error.response?.data?.message ||
-              "Login failed. Please check your credentials."
-          );
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
+      if (isLogin) {
+        const response = await AuthApi.signIn(data);
+        dispatch(login({ user: response.user, role: response.user.role }));
+        localStorage.setItem("token", response.token);
+        navigate("/");
+      } else {
+        const response = await AuthApi.signUp(data);
+        toast.success(response.message, {
+          toastId: "signup-success",
         });
-    } else {
-      AuthApi.signUp(data)
-        .then((response) => {
-          console.log("Signup successful:", response);
-          reset();
-          changeIsLogin();
-        })
-        .catch((error) => {
-          console.error("Signup error:", error);
-          alert(
-            error.response?.data?.message ||
-              "Signup failed. Please check your credentials."
-          );
-        });
+        reset();
+        changeIsLogin();
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message ||
+          (isLogin
+            ? "Login failed. Please check your credentials."
+            : "Signup failed. Please check your credentials."),
+        {
+          toastId: "auth-error",
+        }
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -155,7 +156,7 @@ export const Login = () => {
                 type="submit"
                 className="btn btn-primary w-100 mt-5"
               >
-                Log In
+                {loading ? "Loading..." : "Log In"}
               </button>
             </Form>
           ) : (
@@ -254,7 +255,7 @@ export const Login = () => {
                 type="submit"
                 className="btn btn-primary w-100 mt-4"
               >
-                Create Account
+                {loading ? "Loading..." : "Create Account"}
               </button>
             </Form>
           )}
