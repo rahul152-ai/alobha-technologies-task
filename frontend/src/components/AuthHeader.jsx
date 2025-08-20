@@ -1,5 +1,5 @@
 import noProfileImage from "../assets/svg/noProfileImage.svg";
-import dclutterlogo from "../assets/images/alohaFavIcon.webp";
+import logo from "../assets/images/alohaFavIcon.webp";
 import { useSelector } from "react-redux";
 
 export const AuthHeader = () => {
@@ -14,7 +14,7 @@ export const AuthHeader = () => {
     >
       <div className="w-100 d-flex align-items-center justify-content-between gap-4">
         <div className="d-flex justify-content-center align-items-center ms-5">
-          <img src={dclutterlogo} height={52} width={52} alt="D Clutter Logo" />
+          <img src={logo} height={52} width={52} alt="logo" />
         </div>
         <div className="d-flex align-items-center gap-2 col-2">
           <img src={noProfileImage} alt="noProfileImage" />

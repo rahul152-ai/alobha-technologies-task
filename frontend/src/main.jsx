@@ -17,7 +17,6 @@ createRoot(document.getElementById("root")).render(
         <App />
       </Provider>
     </BrowserRouter>
-    // Toast Container
     <ToastContainer
       position="top-right"
       newestOnTop={true}

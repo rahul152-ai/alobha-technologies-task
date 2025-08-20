@@ -16,7 +16,7 @@ export const NonAuthHeader = () => {
       <div className="d-flex align-items-center justify-content-between w-100 px-5">
         <img
           src={dclutterlogo}
-          alt="D Clutter Logo"
+          alt="logo"
           className="cursor-pointer"
           onClick={() => navigate("/")}
         />

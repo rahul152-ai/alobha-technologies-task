@@ -1,4 +1,11 @@
-import { Home, Logs, UserRound, Users } from "lucide-react";
+import {
+  Home,
+  ListChecks,
+  ListFilterPlus,
+  Logs,
+  UserRound,
+  Users,
+} from "lucide-react";
 
 const menuConfig = [
   {
@@ -24,6 +31,18 @@ const menuConfig = [
     label: "System Log",
     icon: <Logs className="sidebar-icon" size={16} />,
     role: ["admin"],
+  },
+  {
+    url: "/todo",
+    label: "All Todos",
+    icon: <ListChecks className="sidebar-icon" size={16} />,
+    role: ["user"],
+  },
+  {
+    url: "/add-todo",
+    label: "Add Todo",
+    icon: <ListFilterPlus className="sidebar-icon" size={16} />,
+    role: ["user"],
   },
 ];
 

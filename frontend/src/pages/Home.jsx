@@ -1,11 +1,8 @@
-import React from "react";
 import teamtaskhome from "../assets/images/teamtaskhome.jpg";
 import solotaskhome from "../assets/images/solotaskhome.webp";
 import { Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
-  const navigate = useNavigate();
   return (
     <section>
       <div>
@@ -49,10 +46,7 @@ export const Home = () => {
         </div>
       </div>
       <Row className="mt-5 gap-5 flex-nowrap justify-content-center">
-        <div
-          className="col-md-5 white-home-container"
-          onClick={() => navigate("/home/add-junk-removal-request")}
-        >
+        <div className="col-md-5 white-home-container">
           <div className="text-25-600">All Compamy Tasks</div>
           <div
             className="text-16-400 col-8"
@@ -68,10 +62,7 @@ export const Home = () => {
             alt="junkremovalfront"
           />
         </div>
-        <div
-          className="col-md-5 white-home-container"
-          onClick={() => navigate("/my-task")}
-        >
+        <div className="col-md-5 white-home-container">
           <div className="text-25-600">My Tasks</div>
           <div
             className="text-16-400 col-8"
