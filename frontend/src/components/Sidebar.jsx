@@ -1,12 +1,10 @@
-// src/components/Sidebar.jsx
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import dclutterlogo from "../assets/images/alohaFavIcon.webp";
 import {
   BriefcaseBusiness,
   CircleDollarSign,
   House,
-  MessageCircleMore,
+  Users,
   UserRound,
   ChevronDown,
   ChevronUp,
@@ -26,13 +24,10 @@ const Sidebar = () => {
 
   return (
     <div style={{ height: "100%", backgroundColor: "#fff" }}>
-      <div className="d-flex justify-content-center">
-        <img src={dclutterlogo} height={72} width={72} alt="D Clutter Logo" />
-      </div>
       <nav>
         <ul
-          className="d-flex flex-column gap-3 mt-5"
-          style={{ listStyleType: "none", padding: "0" }}
+          className="d-flex flex-column gap-3 mt-1 p-0"
+          style={{ listStyleType: "none" }}
         >
           <li>
             <NavLink
@@ -93,12 +88,8 @@ const Sidebar = () => {
               className="text-14-500 py-12 px-3 text-decoration-none d-flex gap-3 align-items-center"
               activeClassName="active"
             >
-              <MessageCircleMore
-                className="sidebar-icon"
-                size={16}
-                strokeWidth={1}
-              />
-              <span>Messages</span>
+              <Users className="sidebar-icon" size={16} strokeWidth={1} />
+              <span>Teams</span>
             </NavLink>
           </li>
           <li>

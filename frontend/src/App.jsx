@@ -3,7 +3,7 @@ import "./assets/css/style.css";
 import Layout from "./components/Layout";
 import { commonRoutes } from "./routes/commonRoutes";
 import { useSelector } from "react-redux";
-import { customerRoutes } from "./routes/customerRoutes";
+import { adminRoutes } from "./routes/admin";
 import AuthGuard from "./components/AuthGuard";
 import RoleGuard from "./components/RoleGuard";
 
@@ -12,13 +12,9 @@ function App() {
 
   let routes = commonRoutes; // Start with common routes
 
-  if (role === "TeamLeader") {
-    routes = [...routes, ...customerRoutes]; // Add customer-specific routes
+  if (role === "admin") {
+    routes = [...routes, ...adminRoutes];
   }
-  // else if (role === "serviceProvider") {
-  //   routes = [...routes, ...serviceProviderRoutes]; // Add service provider-specific routes
-  // }
-
   if (!isAuthenticated) {
     routes = [...routes];
   }
