@@ -27,7 +27,6 @@ const createLog = async (
     });
 
     await log.save();
-    console.log("Log created successfully:", log);
   } catch (err) {
     console.error("Error creating log:", err);
   }

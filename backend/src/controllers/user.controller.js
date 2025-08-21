@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const User = require("../models/user.model");
 const AppError = require("../utils/appError");
 const bcrypt = require("bcryptjs");
@@ -119,6 +120,45 @@ exports.searchUsers = async (req, res, next) => {
     res.status(200).json({
       message: users.length ? "Users found" : "No users matched your search",
       users,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getTeamUser = async (req, res, next) => {
+  try {
+    const { teamId } = req.params;
+    console.log(teamId);
+
+    if (!teamId) {
+      return res.status(400).json({
+        message: "Team ID is required",
+      });
+    }
+
+    // Validate teamId format
+    if (!mongoose.Types.ObjectId.isValid(teamId)) {
+      return res.status(400).json({
+        message: "Invalid Team ID format",
+      });
+    }
+
+    // Find all users where teams array contains teamId
+    const users = await User.find({
+      teams: { $in: [teamId] },
+    }).select("name");
+
+    if (!users.length) {
+      return res.status(200).json({
+        users: [],
+        message: "No user found in this team",
+      });
+    }
+
+    return res.status(200).json({
+      users,
+      message: "All users in the team",
     });
   } catch (error) {
     next(error);

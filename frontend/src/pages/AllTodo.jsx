@@ -9,19 +9,21 @@ import CustomPagination from "../components/CustomPagination";
 import { ProtectedApi } from "../api/axiosApis";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import AddEditorModal from "../components/AddEditorModel";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 const AllTodos = () => {
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const gridApi = useRef(null);
-
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [totalData, setTotalData] = useState(0);
-
+  const [selectedTeamId, setSelectedTeamId] = useState(null);
+  const [selectedTodoId, setSelectedTodoId] = useState(null);
   // Filters & Query
   const [query, setQuery] = useState({
     page: 1,
@@ -47,6 +49,17 @@ const AllTodos = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const openModal = (teamId, todoId) => {
+    setSelectedTeamId(teamId);
+    setSelectedTodoId(todoId);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    // setSelectedTeamId(null);
   };
 
   useEffect(() => {
@@ -81,7 +94,7 @@ const AllTodos = () => {
   };
 
   return (
-    <div>
+    <>
       {error && !loading ? (
         <div className="text-center">{error}</div>
       ) : (
@@ -193,9 +206,9 @@ const AllTodos = () => {
               suppressCellSelection={true}
               suppressDragLeaveHidesColumns={true}
               noRowsOverlayComponent={NoDataImg}
+              context={{ openAddEditorModal: openModal }}
             />
           </div>
-
           {/* Pagination */}
           <CustomPagination
             currentPage={query.page}
@@ -206,7 +219,16 @@ const AllTodos = () => {
           />
         </div>
       )}
-    </div>
+
+      {showModal && (
+        <AddEditorModal
+          show={showModal}
+          onClose={closeModal}
+          teamId={selectedTeamId}
+          todoId={selectedTodoId}
+        />
+      )}
+    </>
   );
 };
 

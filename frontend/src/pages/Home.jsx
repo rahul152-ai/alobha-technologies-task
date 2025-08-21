@@ -1,8 +1,10 @@
 import teamtaskhome from "../assets/images/teamtaskhome.jpg";
 import solotaskhome from "../assets/images/solotaskhome.webp";
 import { Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 export const Home = () => {
+  const { user } = useSelector((state) => state.auth);
   return (
     <section>
       <div>
@@ -13,7 +15,7 @@ export const Home = () => {
               color: "#1f4097",
             }}
           >
-            John !
+            {user.name}
           </span>
         </div>
         <div className="d-flex align-items-center gap-1 mt-1">
@@ -47,7 +49,7 @@ export const Home = () => {
       </div>
       <Row className="mt-5 gap-5 flex-nowrap justify-content-center">
         <div className="col-md-5 white-home-container">
-          <div className="text-25-600">All Compamy Tasks</div>
+          <div className="text-25-600">All Tasks</div>
           <div
             className="text-16-400 col-8"
             style={{

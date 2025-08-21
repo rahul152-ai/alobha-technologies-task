@@ -153,6 +153,16 @@ export const ProtectedApi = {
     });
     return response.data;
   },
+  getTeamUser: async (teamId) => {
+    const response = await axiosInstanceWithInterceptor.request({
+      url: `/users/team-user/${teamId}`,
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  },
   getTodosById: async (id) => {
     const response = await axiosInstanceWithInterceptor.request({
       url: `/todos/${id}`,

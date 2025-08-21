@@ -40,7 +40,6 @@ const getTeamColumns = (role) => {
       cellRenderer: (params) => params.data.totalUsers,
       sortable: false,
       resizable: false,
-      width: 90,
       editable: false,
       suppressMovable: true,
     });
@@ -50,7 +49,7 @@ const getTeamColumns = (role) => {
       cellRenderer: (params) => (
         <button
           className="btn btn-primary btn-sm"
-          onClick={() => context.openAddUserModal(params.data._id)}
+          onClick={() => params.context.openAddUserModal(params.data._id)}
         >
           Add
         </button>

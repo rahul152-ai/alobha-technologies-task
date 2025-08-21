@@ -45,7 +45,7 @@ const getColumns = (userId, navigate) => {
     },
     {
       headerName: "Status",
-      width: 70,
+      width: 90,
       field: "status",
       cellRenderer: (params) => {
         const status = params.value;
@@ -60,7 +60,6 @@ const getColumns = (userId, navigate) => {
       editable: false,
       suppressMovable: true,
       resizable: false,
-      width: 90,
     },
     {
       headerName: "Description",
@@ -93,7 +92,12 @@ const getColumns = (userId, navigate) => {
             <Button
               size="sm"
               variant="primary"
-              onClick={() => alert("Work in Progress")}
+              onClick={() =>
+                params.context.openAddEditorModal(
+                  params.data.team._id,
+                  params.data._id
+                )
+              }
             >
               Add Editor
             </Button>
